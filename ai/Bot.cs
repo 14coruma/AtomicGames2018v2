@@ -20,6 +20,7 @@ namespace ai
         }
 
         /// Find best move given a game Board object and time limit
+        /*
         public int getMove(Board board)
         {
             // Begin timing
@@ -90,7 +91,8 @@ namespace ai
             }
             return Tuple.Create(bestMove, v1);
         }
-
+  
+    */
         /// Board evaluation function
         public int evaluate(Board b)
         {

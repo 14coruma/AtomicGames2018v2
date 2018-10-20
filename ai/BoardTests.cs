@@ -18,6 +18,13 @@ namespace ai
             Board b = new Board(gm);
 
             Debug.Assert(gm.board.Length == 8);
+
+            b.myBoard[3][3] = 1;
+            b.myBoard[3][4] = 2;
+            b.myBoard[4][3] = 2;
+            b.myBoard[4][4] = 1;
+            Console.Write(b);
+
             Console.WriteLine("\tPassed!");
         }
     }

@@ -44,7 +44,7 @@ namespace ai
         }
 
         /// Checks and returns if a move is legal
-        public bool legalMove(int pos)
+        public bool legalMove(int move)
         {
             return false;
         }
@@ -57,7 +57,7 @@ namespace ai
         }
 
         /// Makes a move, returns legalMove()
-        public bool makeMove(int pos)
+        public bool makeMove(int move)
         {
             return false;
         }
@@ -67,6 +67,27 @@ namespace ai
         public int gameOver()
         {
             return 0;
+        }
+
+        /// write board
+        public override string ToString()
+        {
+            string boardString;
+            boardString = "\n";
+            
+            for(int i=0; i < 8; i++)
+            {
+                for(int j=0; j < 8; j++)
+                {
+                    boardString = boardString + myBoard[i][j] + " ";
+                    if (j == 7)
+                    {
+                        boardString = boardString + '\n';
+                    }
+                }
+            }
+
+            return boardString;
         }
     }
 }
