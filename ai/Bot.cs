@@ -20,8 +20,17 @@ namespace ai
         }
 
         /// Find best move given a game Board object and time limit
-        public int getMove(Board board)
+        public int[] getMove(Board board)
         {
+            // For now... just return random legal move
+            int[] rmove = new int[] { 0, 0 };
+            Random r = new Random();
+            while (!board.legalMove(rmove))
+            {
+                rmove = new int[] { r.Next(0, 8), r.Next(0, 8) };
+            }
+            return rmove;
+
             // Begin timing
             myStopwatch.Reset();
             myStopwatch.Start();
@@ -34,14 +43,15 @@ namespace ai
             while (myStopwatch.ElapsedMilliseconds < myTimeLimit && depth <= 100)
             {
                 lastMove = move;
-                move = alphabeta(board, depth, int.MinValue, int.MaxValue).Item1;
+                //move = alphabeta(board, depth, int.MinValue, int.MaxValue).Item1;
                 depth++;
             }
 
-            return lastMove; // because move may contain an uneducated decision
+            //return lastMove; // because move may contain an uneducated decision
         }
 
         /// Alpha-beta algorithm
+         /*
         Tuple<int, int> alphabeta(Board board, int depth, int a, int b)
         {
             int bestMove = -1;
@@ -90,6 +100,7 @@ namespace ai
             }
             return Tuple.Create(bestMove, v1);
         }
+        */
 
         /// Board evaluation function
         public int evaluate(Board b)

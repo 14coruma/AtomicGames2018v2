@@ -44,8 +44,77 @@ namespace ai
         }
 
         /// Checks and returns if a move is legal
-        public bool legalMove(int pos)
+        public bool legalMove(int[] pos)
         {
+            if (myBoard[pos[0]][pos[1]] > 0) // Already occupied
+                return false;
+            for (int i = 0; i < 8; i++) // Look at each line around our move
+            {
+                int j;
+                switch (i)
+                {
+                    case 0: // L to R
+                        j = pos[1]+2;
+                        if (j > 7 || myBoard[pos[0]][pos[1]+1] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j < 8)
+                        {
+                            if (myBoard[pos[0]][j] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j++;
+                        }
+                        if (myBoard[pos[0]][j] == myPlayersTurn)
+                            return true;
+                        break;
+                    case 1: // R to L
+                        j = pos[1]-2;
+                        if (j < 0 || myBoard[pos[0]][pos[1]-1] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j > 0)
+                        {
+                            if (myBoard[pos[0]][j] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j--;
+                        }
+                        if (myBoard[pos[0]][j] == myPlayersTurn)
+                            return true;
+                        break;
+                    case 2: // Top to Bot
+                        j = pos[0]+2;
+                        if (j > 7 || myBoard[pos[0]+1][pos[1]] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j < 8)
+                        {
+                            if (myBoard[j][pos[1]] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j++;
+                        }
+                        if (myBoard[j][pos[1]] == myPlayersTurn)
+                            return true;
+                        break;
+                    case 3: // Bot to Top
+                        j = pos[0]-2;
+                        if (j < 0 || myBoard[pos[0]-1][pos[1]] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j > 0)
+                        {
+                            if (myBoard[j][pos[1]] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j--;
+                        }
+                        if (myBoard[j][pos[1]] == myPlayersTurn)
+                            return true;
+                        break;
+                }
+            }
             return false;
         }
 
@@ -57,7 +126,7 @@ namespace ai
         }
 
         /// Makes a move, returns legalMove()
-        public bool makeMove(int pos)
+        public bool makeMove(int[] pos)
         {
             return false;
         }
