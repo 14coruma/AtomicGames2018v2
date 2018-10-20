@@ -11,27 +11,19 @@ namespace ai
     {
         Stopwatch myStopwatch; // Used for timing moves
         int myTimeLimit;
+        int escapeTime;
 
         /// Bot constructor
         public Bot(int timeLimit)
         {
             myTimeLimit = timeLimit;
             myStopwatch = new Stopwatch();
+            escapeTime = 1000;
         }
 
         /// Find best move given a game Board object and time limit
-        /*
-        public int getMove(Board board)
+        public int[] getMove(Board board)
         {
-            // For now... just return random legal move
-            int[] rmove = new int[] { 0, 0 };
-            Random r = new Random();
-            while (!board.legalMove(rmove))
-            {
-                rmove = new int[] { r.Next(0, 8), r.Next(0, 8) };
-            }
-            return rmove;
-
             // Begin timing
             myStopwatch.Reset();
             myStopwatch.Start();
@@ -39,33 +31,37 @@ namespace ai
             // Iterate search depth until out of time...
             // ...or depth too far (meaning bot sees endgame)
             int depth = 0;
-            int lastMove = -1;
-            int move = -1;
-            while (myStopwatch.ElapsedMilliseconds < myTimeLimit && depth <= 100)
+            int[] lastMove = new int[] { -1, -1 };
+            int[] move = new int[] { -1, -1 };
+            while (myStopwatch.ElapsedMilliseconds < myTimeLimit - escapeTime && depth <= 100)
             {
-                lastMove = move;
-                //move = alphabeta(board, depth, int.MinValue, int.MaxValue).Item1;
+                move.CopyTo(lastMove, 0);
+                alphabeta(board, depth, int.MinValue, int.MaxValue).Item1.CopyTo(move, 0);
                 depth++;
             }
-
-            //return lastMove; // because move may contain an uneducated decision
+            if(lastMove[0] == -1)
+            {
+                board.moveSpace();
+                return board.moveSpace()[0];
+            }
+            Console.WriteLine("depth: " + (depth - 1));
+            return lastMove; // because move may contain an uneducated decision
         }
 
         /// Alpha-beta algorithm
-         /*
-        Tuple<int, int> alphabeta(Board board, int depth, int a, int b)
+        Tuple<int[], int> alphabeta(Board board, int depth, int a, int b)
         {
-            int bestMove = -1;
+            int[] bestMove = new int[] { -1, -1 };
             int v1, v2;
 
             if (depth == 0 || board.myGameOver)
-                return Tuple.Create(-1, evaluate(board));
+                return Tuple.Create(new int[] { -1, -1 }, evaluate(board));
             if (board.myPlayersTurn == 1) // Maximizing
             {
                 v1 = int.MinValue;
-                foreach (int move in board.moveSpace())
+                foreach (int[] move in board.moveSpace())
                 {
-                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 1)
+                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - escapeTime)
                         break;
                     Board tempBoard = new Board(board);
                     tempBoard.makeMove(move);
@@ -73,7 +69,7 @@ namespace ai
                     if (v2 > v1)
                     {
                         v1 = v2;
-                        bestMove = move;
+                        move.CopyTo(bestMove, 0);
                     }
                     a = Math.Max(a, v1);
                     if (a >= b)
@@ -82,9 +78,9 @@ namespace ai
             } else
             { // Minimizing
                 v1 = int.MaxValue;
-                foreach (int move in board.moveSpace())
+                foreach (int[] move in board.moveSpace())
                 {
-                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 1)
+                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - escapeTime)
                         break;
                     Board tempBoard = new Board(board);
                     tempBoard.makeMove(move);
@@ -92,7 +88,7 @@ namespace ai
                     if (v2 < v1)
                     {
                         v1 = v2;
-                        bestMove = move;
+                        move.CopyTo(bestMove, 0);
                     }
                     b = Math.Min(b, v1);
                     if (a >= b)
@@ -102,18 +98,16 @@ namespace ai
             return Tuple.Create(bestMove, v1);
         }
   
-    */
-  
         /// Board evaluation function
         public int evaluate(Board b)
         {
-            // TODO: improve heuristic
-            if (b.myWinner == 0)
-                return 0;
-            else if (b.myWinner == 1)
-                return 1;
+            int score = 0;
+            if (b.myWinner == 1)
+                score += 1000;
             else
-                return -1;
+                score -= 1000;
+            score += b.myP1Score - b.myP2Score;
+            return score;
         }
     }
 }

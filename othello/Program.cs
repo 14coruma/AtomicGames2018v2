@@ -85,11 +85,11 @@ namespace othello
                         
                         var bot = new Bot(gameMessage.maxTurnTime);
                         var board = new Board(gameMessage);
-                        //var nextMove = bot.getMove(board);
+                        var nextMove = bot.getMove(board);
 
-                        //var serialized = JsonConvert.SerializeObject(nextMove);
+                        var serialized = JsonConvert.SerializeObject(nextMove);
                         
-                        //sw.WriteLine(serialized);
+                        sw.WriteLine(serialized);
                         sw.Flush();
                     }
 
