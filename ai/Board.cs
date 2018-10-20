@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,11 +47,13 @@ namespace ai
             myBoard = gm.board.Select(a => a.ToArray()).ToArray();
         }
 
-        /// Checks and returns if a move is legal
-        public bool legalMove(int[] pos)
+        /// Checks and returns list of cases that are legal
+        public ArrayList legalMove(int[] pos)
         {
             if (myBoard[pos[0]][pos[1]] > 0) // Already occupied
-                return false;
+                return new ArrayList();
+
+            ArrayList legalCases = new ArrayList();
             for (int i = 0; i < 8; i++) // Look at each line around our move
             {
                 int j;
@@ -70,7 +73,7 @@ namespace ai
                             j++;
                         }
                         if (myBoard[pos[0]][j] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                     case 1: // R to L
                         j = pos[1]-2;
@@ -85,7 +88,7 @@ namespace ai
                             j--;
                         }
                         if (myBoard[pos[0]][j] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                     case 2: // Top to Bot
                         j = pos[0]+2;
@@ -100,7 +103,7 @@ namespace ai
                             j++;
                         }
                         if (myBoard[j][pos[1]] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                     case 3: // Bot to Top
                         j = pos[0]-2;
@@ -115,7 +118,7 @@ namespace ai
                             j--;
                         }
                         if (myBoard[j][pos[1]] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                     case 4: // TopL to BotR
                         j = pos[0]+2;
@@ -132,7 +135,7 @@ namespace ai
                             k++;
                         }
                         if (myBoard[j][k] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                     case 5: // BotR to TopL
                         j = pos[0]-2;
@@ -149,7 +152,7 @@ namespace ai
                             k--;
                         }
                         if (myBoard[j][k] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                     case 6: // TopR to BotL
                         j = pos[0]+2;
@@ -166,7 +169,7 @@ namespace ai
                             k--;
                         }
                         if (myBoard[j][k] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                     case 7: // BotL to TopR
                         j = pos[0]-2;
@@ -183,11 +186,11 @@ namespace ai
                             k++;
                         }
                         if (myBoard[j][k] == myPlayersTurn)
-                            return true;
+                            legalCases.Add(i);
                         break;
                 }
             }
-            return false;
+            return legalCases;
         }
 
         /// Returns a list of all possible moves
@@ -198,7 +201,7 @@ namespace ai
             {
                 for (int col = 0; col < 8; col++)
                 {
-                    if (legalMove(new int[] { row, col }))
+                   if (legalMove(new int[] { row, col }).Count > 0)
                         moves.Add(new int[] { row, col });
                 }
             }
@@ -208,8 +211,128 @@ namespace ai
         /// Makes a move, returns legalMove()
         public bool makeMove(int[] pos)
         {
+            ArrayList legalCases = legalMove(pos);
+            if (legalCases.Count == 0)
+                return false;
+            myBoard[pos[0]][pos[1]] = myPlayersTurn;
+            foreach (int i in legalCases) // Look at each line around our move that will have captures
+            {
+                int j;
+                int k;
+                switch (i)
+                {
+                    case 0: // L to R
+                        j = pos[1] + 1;
+                        while (j < 8)
+                        {
+                            if (myBoard[pos[0]][j] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[pos[0]][j] = myPlayersTurn;
+                            j++;
+                        }
+                        break;
+                    case 1: // R to L
+                        j = pos[1] - 1;
+                        while (j > 0)
+                        {
+                            if (myBoard[pos[0]][j] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[pos[0]][j] = myPlayersTurn;
+                            j--;
+                        }
+                        break;
+                    case 2: // Top to Bot
+                        j = pos[0] + 1;
+                        while (j < 8)
+                        {
+                            if (myBoard[j][pos[1]] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[j][pos[1]] = myPlayersTurn;
+                            j++;
+                        }
+                        break;
+                    case 3: // Bot to Top
+                        j = pos[0] - 1;
+                        while (j > 0)
+                        {
+                            if (myBoard[j][pos[1]] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[j][pos[1]] = myPlayersTurn;
+                            j--;
+                        }
+                        break;
+                    case 4: // TopL to BotR
+                        j = pos[0] + 1;
+                        k = pos[1] + 1;
+                        while (j < 7 && k < 7)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[j][k] = myPlayersTurn;
+                            j++;
+                            k++;
+                        }
+                        break;
+                    case 5: // BotR to TopL
+                        j = pos[0] - 1;
+                        k = pos[1] - 1;
+                        while (j > 0 && k > 0)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[j][k] = myPlayersTurn;
+                            j--;
+                            k--;
+                        }
+                        break;
+                    case 6: // TopR to BotL
+                        j = pos[0] + 1;
+                        k = pos[1] - 1;
+                        while (j < 7 && k > 0)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[j][k] = myPlayersTurn;
+                            j++;
+                            k--;
+                        }
+                        break;
+                    case 7: // BotL to TopR
+                        j = pos[0] - 1;
+                        k = pos[1] + 1;
+                        while (j > 0 && k < 7)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            myBoard[j][k] = myPlayersTurn;
+                            j--;
+                            k++;
+                        }
+                        break;
+                }
+            }
 
-            return false;
+            myPlayersTurn = (myPlayersTurn % 2) + 1; // update players turn
+            if (moveSpace().Count == 0)              // revert players turn if they don't have moves
+                myPlayersTurn = (myPlayersTurn % 2) + 1;
+
+            return true;
         }
 
         /// Checks for game over conditions,

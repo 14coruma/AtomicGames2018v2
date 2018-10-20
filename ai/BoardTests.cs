@@ -22,27 +22,33 @@ namespace ai
 
             Board b = new Board(gm);
             Debug.Assert(gm.board.Length == 8);
-            Debug.Assert(b.legalMove(new int[] {0, 0}));
-            Debug.Assert(!b.legalMove(new int[] {0, 1}));
-            Debug.Assert(b.legalMove(new int[] {0, 5}));
+            Debug.Assert(b.legalMove(new int[] {0, 0}).Count > 0);
+            Debug.Assert(b.legalMove(new int[] {0, 1}).Count == 0);
+            Debug.Assert(b.legalMove(new int[] {0, 5}).Count > 0);
 
             b.myPlayersTurn = 2;
             b.myBoard[1][1] = 1;
-            Debug.Assert(b.legalMove(new int[] { 0, 3 }));
-            Debug.Assert(b.legalMove(new int[] { 2, 1 }));
+            Debug.Assert(b.legalMove(new int[] { 0, 3 }).Count > 0);
+            Debug.Assert(b.legalMove(new int[] { 2, 1 }).Count > 0);
             b.myBoard[1][2] = 2;
             b.myBoard[2][2] = 2;
             b.myPlayersTurn = 1;
-            Debug.Assert(b.legalMove(new int[] { 3, 2 }));
+            Debug.Assert(b.legalMove(new int[] { 3, 2 }).Count > 0);
 
             b.myBoard[1][6] = 2;
             Console.WriteLine(b);
             b.myPlayersTurn = 2;
-            Debug.Assert(b.legalMove(new int[] { 0, 0 }));
-            Debug.Assert(!b.legalMove(new int[] { 3, 3 }));
+            Debug.Assert(b.legalMove(new int[] { 0, 0 }).Count > 0);
+            Debug.Assert(b.legalMove(new int[] { 3, 3 }).Count == 0);
             b.myPlayersTurn = 1;
-            Debug.Assert(b.legalMove(new int[] { 3, 3 }));
-            Debug.Assert(b.legalMove(new int[] { 2, 5 }));
+            Debug.Assert(b.legalMove(new int[] { 3, 3 }).Count > 0);
+            Debug.Assert(b.legalMove(new int[] { 2, 5 }).Count > 0);
+            b.makeMove(new int[] { 2, 5 });
+            Console.WriteLine(b);
+            b.makeMove(new int[] { 1, 0 });
+            Console.WriteLine(b);
+            b.makeMove(new int[] { 3, 2 });
+            Console.WriteLine(b);
 
             Console.WriteLine("\tPassed!");
         }
