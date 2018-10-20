@@ -102,33 +102,60 @@ namespace ai
         public int evaluate(Board b)
         {
             int score = 0;
+            int winScore = 1000;
+            int cornerScore = 100;
+            int edgeScore = 10;
             
             // Score very highly for winning
             if (b.myWinner == 1)
-                score += 1000;
+                score += winScore;
             else
-                score -= 1000;
+                score -= winScore;
 
             // Score captured tiles (1pt each)
             score += b.myP1Score - b.myP2Score;
 
-            // Score corners
+            // Score corners (100pt)
             if (b.myBoard[0][0] == 1)
-                score += 100;
+                score += cornerScore;
             else if (b.myBoard[0][0] == 2)
-                score -= 100;
+                score -= cornerScore;
             if (b.myBoard[7][0] == 1)
-                score += 100;
+                score += cornerScore;
             else if (b.myBoard[7][0] == 2)
-                score -= 100;
+                score -= cornerScore;
             if (b.myBoard[0][7] == 1)
-                score += 100;
+                score += cornerScore;
             else if (b.myBoard[0][7] == 2)
-                score -= 100;
+                score -= cornerScore;
             if (b.myBoard[7][7] == 1)
-                score += 100;
+                score += cornerScore;
             else if (b.myBoard[7][7] == 2)
-                score -= 100;
+                score -= cornerScore;
+
+            // Score edge pieces
+            for (int row = 2; row < 6; row++)
+            {
+                if (b.myBoard[row][0] == 1)
+                    score += edgeScore;
+                else if (b.myBoard[row][0] == 2)
+                    score -= edgeScore;
+                if (b.myBoard[row][7] == 1)
+                    score += edgeScore;
+                else if (b.myBoard[row][7] == 2)
+                    score -= edgeScore;
+            }
+            for (int col = 2; col < 6; col++)
+            {
+                if (b.myBoard[0][col] == 1)
+                    score += edgeScore;
+                else if (b.myBoard[0][col] == 2)
+                    score -= edgeScore;
+                if (b.myBoard[7][col] == 1)
+                    score += edgeScore;
+                else if (b.myBoard[7][col] == 2)
+                    score -= edgeScore;
+            }
 
             return score;
         }
