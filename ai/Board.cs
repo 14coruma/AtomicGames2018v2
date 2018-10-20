@@ -44,7 +44,7 @@ namespace ai
         }
 
         /// Checks and returns if a move is legal
-        public bool legalMove(int move)
+        public bool legalMove(int[] move)
         {
             return false;
         }
