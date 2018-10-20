@@ -1,14 +1,13 @@
-﻿// Test
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtomicGames2018
+namespace ai
 {
-    class Bot
+    public class Bot
     {
         Stopwatch myStopwatch; // Used for timing moves
         int myTimeLimit;

@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtomicGames2018
+namespace ai 
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+            BoardTests bt = new BoardTests();
+            bt.testLegalMoves();
+            Console.ReadLine();
         }
     }
 }

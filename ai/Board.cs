@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtomicGames2018
+namespace ai 
 {
-    class Board
+    public class Board
     {
         public int myPlayersTurn;
         public bool myGameOver;
         public int myWinner;
+        public int[][] myBoard;
 
         /// Empty constructor - creates a new game board
         public Board()
@@ -26,6 +27,14 @@ namespace AtomicGames2018
             myPlayersTurn = b.myPlayersTurn;
             myGameOver = b.myGameOver;
             myWinner = b.myWinner;
+        }
+
+        /// Board constructor from gameMessage
+        public Board(GameMessage gm)
+        {
+            myPlayersTurn = gm.player;
+            myGameOver = false;
+            myBoard = gm.board.Select(a => a.ToArray()).ToArray();
         }
 
         ///  We probably need some sort of constructor / update function to 

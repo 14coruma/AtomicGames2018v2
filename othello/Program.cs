@@ -83,8 +83,10 @@ namespace othello
                     {
                         var gameMessage = JsonConvert.DeserializeObject<GameMessage>(line);
                         
-                        var nextMove = AI.NextMove(gameMessage);
-                        
+                        var bot = new Bot(gameMessage.maxTurnTime);
+                        var board = new Board(gameMessage);
+                        var nextMove = bot.getMove(board);
+
                         var serialized = JsonConvert.SerializeObject(nextMove);
                         
                         sw.WriteLine(serialized);
