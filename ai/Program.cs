@@ -12,6 +12,7 @@ namespace ai
         {
             BoardTests bt = new BoardTests();
             bt.testLegalMoves();
+            bt.testMakeMove();
             Console.ReadLine();
         }
     }
