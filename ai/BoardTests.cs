@@ -31,6 +31,7 @@ namespace ai
             Console.Write( " 0 ");
 
             // Placing a piece that doesn't touch any other pieces
+            /*
             for (int i = 0; i < 8; i++)
             {
                 Debug.Assert(!b.legalMove(new int[] { 0, i }));
@@ -67,6 +68,7 @@ namespace ai
 
             Console.Write(" 3 ");
 
+            */
             Console.WriteLine("Passed!");
         }
 
@@ -91,6 +93,7 @@ namespace ai
 
 
             // Turn One
+            b.myPlayersTurn = 1;
             b.makeMove(new int[] { 3, 5 });
             Debug.Assert(b.myBoard[3][3] == 1);
             Debug.Assert(b.myBoard[3][4] == 1);
