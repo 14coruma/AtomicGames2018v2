@@ -191,9 +191,17 @@ namespace ai
         }
 
         /// Returns a list of all possible moves
-        public List<int> moveSpace()
+        public List<int[]> moveSpace()
         {
-            List<int> moves = new List<int>();
+            List<int[]> moves = new List<int[]>();
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    if (legalMove(new int[] { row, col }))
+                        moves.Add(new int[] { row, col });
+                }
+            }
             return moves;
         }
 
