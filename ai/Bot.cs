@@ -157,9 +157,6 @@ namespace ai
                     score -= edgeScore;
             }
 
-            // Look for ballanced edges
-
-
             return score;
         }
     }
