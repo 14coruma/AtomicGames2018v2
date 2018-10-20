@@ -13,6 +13,8 @@ namespace ai
         public bool myGameOver;
         public int myWinner;
         public int[][] myBoard;
+        public int myP1Score = 0;
+        public int myP2Score = 0;
 
         /// Empty constructor - creates a new game board
         public Board()
@@ -20,6 +22,8 @@ namespace ai
             myPlayersTurn = 1;
             myGameOver = false;
             myWinner = 0;
+            myP1Score = 2;
+            myP2Score = 2;
         }
 
         /// Copy constructor - creates a copy of a game board
@@ -29,12 +33,18 @@ namespace ai
             myGameOver = b.myGameOver;
             myWinner = b.myWinner;
             myBoard = new int[8][];
+            myP1Score = 0;
+            myP2Score = 0;
             for (int row = 0; row < 8; row++)
             {
                 myBoard[row] = new int[8];
                 for (int col = 0; col < 8; col++)
                 {
                     myBoard[row][col] = b.myBoard[row][col];
+                    if (b.myBoard[row][col] == 1)
+                        myP1Score++;
+                    else if (b.myBoard[row][col] == 2)
+                        myP2Score++;
                 }
             }
         }
@@ -45,6 +55,7 @@ namespace ai
             myPlayersTurn = gm.player;
             myGameOver = false;
             myBoard = gm.board.Select(a => a.ToArray()).ToArray();
+            updateScores();
         }
 
         /// Checks and returns list of cases that are legal
@@ -332,6 +343,9 @@ namespace ai
             if (moveSpace().Count == 0)              // revert players turn if they don't have moves
                 myPlayersTurn = (myPlayersTurn % 2) + 1;
 
+
+            gameOver();     // Check for gameOver
+            updateScores(); // Update scores
             return true;
         }
 
@@ -339,7 +353,40 @@ namespace ai
         /// returns value of the winning player
         public int gameOver()
         {
-            return 0;
+            myP1Score = 0;
+            myP2Score = 0;
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    if (myBoard[row][col] == 0)
+                        return 0;
+                    else if (myBoard[row][col] == 1)
+                        myP1Score++;
+                    else if (myBoard[row][col] == 2)
+                        myP2Score++;
+                }
+            }
+            if (myP1Score > myP2Score)
+                return 1;
+            else
+                return 2;
+        }
+
+        public void updateScores()
+        {
+            myP1Score = 0;
+            myP2Score = 0;
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    if (myBoard[row][col] == 1)
+                        myP1Score++;
+                    if (myBoard[row][col] == 2)
+                        myP2Score++;
+                }
+            }
         }
 
         /// write board
