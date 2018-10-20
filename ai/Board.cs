@@ -27,6 +27,15 @@ namespace ai
             myPlayersTurn = b.myPlayersTurn;
             myGameOver = b.myGameOver;
             myWinner = b.myWinner;
+            myBoard = new int[8][];
+            for (int row = 0; row < 8; row++)
+            {
+                myBoard[row] = new int[8];
+                for (int col = 0; col < 8; col++)
+                {
+                    myBoard[row][col] = b.myBoard[row][col];
+                }
+            }
         }
 
         /// Board constructor from gameMessage
@@ -35,12 +44,6 @@ namespace ai
             myPlayersTurn = gm.player;
             myGameOver = false;
             myBoard = gm.board.Select(a => a.ToArray()).ToArray();
-        }
-
-        ///  We probably need some sort of constructor / update function to 
-        ///  update our board to the new Atomic Object game state
-        public void update(List<int> updates)
-        {
         }
 
         /// Checks and returns if a move is legal
