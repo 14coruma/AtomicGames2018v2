@@ -112,8 +112,8 @@ namespace ai
             else
                 score -= winScore;
 
-            // Score captured tiles (1pt each)
-            score += b.myP1Score - b.myP2Score;
+            // Score captured tiles (1pt each) REVERSED
+            score -= b.myP1Score - b.myP2Score;
 
             // Score corners (100pt)
             if (b.myBoard[0][0] == 1)
