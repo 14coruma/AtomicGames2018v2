@@ -375,7 +375,7 @@ namespace ai
             {
                 for (int col = 0; col < 8; col++)
                 {
-                    if (myBoard[row][col] == 0)
+                    if (myBoard[row][col] == 0) 
                         return 0;
                     else if (myBoard[row][col] == 1)
                         myP1Score++;
@@ -384,9 +384,17 @@ namespace ai
                 }
             }
             if (myP1Score > myP2Score)
+            {
+                myGameOver = true;
+                myWinner = 1;
                 return 1;
+            }
             else
+            {
+                myGameOver = true;
+                myWinner = 2;
                 return 2;
+            }
         }
 
         public void updateScores()
