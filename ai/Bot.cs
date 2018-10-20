@@ -20,7 +20,8 @@ namespace ai
         }
 
         /// Find best move given a game Board object and time limit
-        public int[] getMove(Board board)
+        /*
+        public int getMove(Board board)
         {
             // For now... just return random legal move
             int[] rmove = new int[] { 0, 0 };
@@ -100,8 +101,9 @@ namespace ai
             }
             return Tuple.Create(bestMove, v1);
         }
-        */
-
+  
+    */
+  
         /// Board evaluation function
         public int evaluate(Board b)
         {
