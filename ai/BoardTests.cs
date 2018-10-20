@@ -14,11 +14,7 @@ namespace ai
             gm.board = new int[8][];
             for (int i = 0; i < 8; i++)
                 gm.board[i] = new int[8];
-            gm.player = 1;
-            gm.board[0][1] = 2;
-            gm.board[0][2] = 1;
-            gm.board[0][6] = 2;
-            gm.board[0][7] = 1;
+            gm.player = 2;
 
             Board b = new Board(gm);
             Debug.Assert(gm.board.Length == 8);
@@ -31,12 +27,6 @@ namespace ai
 
             //Make sure legalMove works as it should.
             Console.Write("Testing Board.legalMove()... ");
-
-            // Placing a piece outside of the game board
-            Debug.Assert(!b.legalMove(new int[] {-1,0}));
-            Debug.Assert(!b.legalMove(new int[] {8,0}));
-            Debug.Assert(!b.legalMove(new int[] {0,-1}));
-            Debug.Assert(!b.legalMove(new int[] {0,8}));
 
             Console.Write( " 0 ");
 
