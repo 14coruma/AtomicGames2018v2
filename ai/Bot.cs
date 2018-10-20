@@ -102,11 +102,34 @@ namespace ai
         public int evaluate(Board b)
         {
             int score = 0;
+            
+            // Score very highly for winning
             if (b.myWinner == 1)
                 score += 1000;
             else
                 score -= 1000;
+
+            // Score captured tiles (1pt each)
             score += b.myP1Score - b.myP2Score;
+
+            // Score corners
+            if (b.myBoard[0][0] == 1)
+                score += 100;
+            else if (b.myBoard[0][0] == 2)
+                score -= 100;
+            if (b.myBoard[7][0] == 1)
+                score += 100;
+            else if (b.myBoard[7][0] == 2)
+                score -= 100;
+            if (b.myBoard[0][7] == 1)
+                score += 100;
+            else if (b.myBoard[0][7] == 2)
+                score -= 100;
+            if (b.myBoard[7][7] == 1)
+                score += 100;
+            else if (b.myBoard[7][7] == 2)
+                score -= 100;
+
             return score;
         }
     }
