@@ -20,18 +20,10 @@ namespace ai
         }
 
         /// Find best move given a game Board object and time limit
-        /*
-        public int getMove(Board board)
+        public int[] getMove(Board board)
         {
-            // For now... just return random legal move
-            int[] rmove = new int[] { 0, 0 };
-            Random r = new Random();
-            while (board.legalMove(rmove).Count == 0)
-            {
-                rmove = new int[] { r.Next(0, 8), r.Next(0, 8) };
-            }
-            return rmove;
-
+            Board tempBoard = new Board(board);
+            myTimeLimit = 1000;
             // Begin timing
             myStopwatch.Reset();
             myStopwatch.Start();
@@ -39,33 +31,32 @@ namespace ai
             // Iterate search depth until out of time...
             // ...or depth too far (meaning bot sees endgame)
             int depth = 0;
-            int lastMove = -1;
-            int move = -1;
-            while (myStopwatch.ElapsedMilliseconds < myTimeLimit && depth <= 100)
+            int[] lastMove = new int[] { -1, -1 };
+            int[] move = new int[] { -1, -1 };
+            while (myStopwatch.ElapsedMilliseconds < myTimeLimit - 50 && depth <= 100)
             {
-                lastMove = move;
-                //move = alphabeta(board, depth, int.MinValue, int.MaxValue).Item1;
+                move.CopyTo(lastMove, 0);
+                alphabeta(tempBoard, depth, int.MinValue, int.MaxValue).Item1.CopyTo(move, 0);
                 depth++;
             }
 
-            //return lastMove; // because move may contain an uneducated decision
+            return lastMove; // because move may contain an uneducated decision
         }
 
         /// Alpha-beta algorithm
-         /*
-        Tuple<int, int> alphabeta(Board board, int depth, int a, int b)
+        Tuple<int[], int> alphabeta(Board board, int depth, int a, int b)
         {
-            int bestMove = -1;
+            int[] bestMove = new int[] { -1, -1 };
             int v1, v2;
 
             if (depth == 0 || board.myGameOver)
-                return Tuple.Create(-1, evaluate(board));
+                return Tuple.Create(new int[] { -1, -1 }, evaluate(board));
             if (board.myPlayersTurn == 1) // Maximizing
             {
                 v1 = int.MinValue;
-                foreach (int move in board.moveSpace())
+                foreach (int[] move in board.moveSpace())
                 {
-                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 1)
+                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 50)
                         break;
                     Board tempBoard = new Board(board);
                     tempBoard.makeMove(move);
@@ -73,7 +64,7 @@ namespace ai
                     if (v2 > v1)
                     {
                         v1 = v2;
-                        bestMove = move;
+                        move.CopyTo(bestMove, 0);
                     }
                     a = Math.Max(a, v1);
                     if (a >= b)
@@ -82,9 +73,9 @@ namespace ai
             } else
             { // Minimizing
                 v1 = int.MaxValue;
-                foreach (int move in board.moveSpace())
+                foreach (int[] move in board.moveSpace())
                 {
-                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 1)
+                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 50)
                         break;
                     Board tempBoard = new Board(board);
                     tempBoard.makeMove(move);
@@ -92,7 +83,7 @@ namespace ai
                     if (v2 < v1)
                     {
                         v1 = v2;
-                        bestMove = move;
+                        move.CopyTo(bestMove, 0);
                     }
                     b = Math.Min(b, v1);
                     if (a >= b)
@@ -101,8 +92,6 @@ namespace ai
             }
             return Tuple.Create(bestMove, v1);
         }
-  
-    */
   
         /// Board evaluation function
         public int evaluate(Board b)

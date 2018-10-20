@@ -83,6 +83,8 @@ namespace ai
                             }
                             j++;
                         }
+                        if (j >= 8)
+                            break;
                         if (myBoard[pos[0]][j] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
@@ -98,6 +100,8 @@ namespace ai
                             }
                             j--;
                         }
+                        if (j <= 0)
+                            break;
                         if (myBoard[pos[0]][j] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
@@ -113,6 +117,8 @@ namespace ai
                             }
                             j++;
                         }
+                        if (j >= 8)
+                            break;
                         if (myBoard[j][pos[1]] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
@@ -128,6 +134,8 @@ namespace ai
                             }
                             j--;
                         }
+                        if (j <= 0)
+                            break;
                         if (myBoard[j][pos[1]] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
@@ -145,6 +153,8 @@ namespace ai
                             j++;
                             k++;
                         }
+                        if (j >= 8)
+                            break;
                         if (myBoard[j][k] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
@@ -162,6 +172,8 @@ namespace ai
                             j--;
                             k--;
                         }
+                        if (j <= 0 || k <= 0)
+                            break;
                         if (myBoard[j][k] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
@@ -179,6 +191,8 @@ namespace ai
                             j++;
                             k--;
                         }
+                        if (j >= 8 || k <= 0)
+                            break;
                         if (myBoard[j][k] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
@@ -196,6 +210,8 @@ namespace ai
                             j--;
                             k++;
                         }
+                        if (j <= 0 || k >= 8)
+                            break;
                         if (myBoard[j][k] == myPlayersTurn)
                             legalCases.Add(i);
                         break;
