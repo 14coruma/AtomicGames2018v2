@@ -51,6 +51,7 @@ namespace ai
             for (int i = 0; i < 8; i++) // Look at each line around our move
             {
                 int j;
+                int k;
                 switch (i)
                 {
                     case 0: // L to R
@@ -113,6 +114,74 @@ namespace ai
                         if (myBoard[j][pos[1]] == myPlayersTurn)
                             return true;
                         break;
+                    case 4: // TopL to BotR
+                        j = pos[0]+2;
+                        k = pos[1]+2;
+                        if (j > 7 || k > 7 || myBoard[pos[0]+1][pos[1]+1] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j < 7 && k < 7)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j++;
+                            k++;
+                        }
+                        if (myBoard[j][k] == myPlayersTurn)
+                            return true;
+                        break;
+                    case 5: // BotR to TopL
+                        j = pos[0]-2;
+                        k = pos[1]-2;
+                        if (j < 0 || k < 0 || myBoard[pos[0]-1][pos[1]-1] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j > 0 && k > 0)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j--;
+                            k--;
+                        }
+                        if (myBoard[j][k] == myPlayersTurn)
+                            return true;
+                        break;
+                    case 6: // TopR to BotL
+                        j = pos[0]+2;
+                        k = pos[1]-2;
+                        if (j > 7 || k < 0 || myBoard[pos[0]+1][pos[1]-1] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j < 7 && k > 0)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j++;
+                            k--;
+                        }
+                        if (myBoard[j][k] == myPlayersTurn)
+                            return true;
+                        break;
+                    case 7: // BotL to TopR
+                        j = pos[0]-2;
+                        k = pos[1]+2;
+                        if (j < 0 || k > 7 || myBoard[pos[0]-1][pos[1]+1] != (myPlayersTurn % 2) + 1)
+                            break;
+                        while (j > 0 && k < 7)
+                        {
+                            if (myBoard[j][k] != (myPlayersTurn % 2) + 1)
+                            {
+                                break;
+                            }
+                            j--;
+                            k++;
+                        }
+                        if (myBoard[j][k] == myPlayersTurn)
+                            return true;
+                        break;
                 }
             }
             return false;
@@ -136,6 +205,27 @@ namespace ai
         public int gameOver()
         {
             return 0;
+        }
+
+        /// write board
+        public override string ToString()
+        {
+            string boardString;
+            boardString = "\n";
+            
+            for(int i=0; i < 8; i++)
+            {
+                for(int j=0; j < 8; j++)
+                {
+                    boardString = boardString + myBoard[i][j] + " ";
+                    if (j == 7)
+                    {
+                        boardString = boardString + '\n';
+                    }
+                }
+            }
+
+            return boardString;
         }
     }
 }

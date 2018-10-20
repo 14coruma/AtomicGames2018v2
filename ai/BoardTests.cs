@@ -34,6 +34,16 @@ namespace ai
             b.myBoard[2][2] = 2;
             b.myPlayersTurn = 1;
             Debug.Assert(b.legalMove(new int[] { 3, 2 }));
+
+            b.myBoard[1][6] = 2;
+            Console.WriteLine(b);
+            b.myPlayersTurn = 2;
+            Debug.Assert(b.legalMove(new int[] { 0, 0 }));
+            Debug.Assert(!b.legalMove(new int[] { 3, 3 }));
+            b.myPlayersTurn = 1;
+            Debug.Assert(b.legalMove(new int[] { 3, 3 }));
+            Debug.Assert(b.legalMove(new int[] { 2, 5 }));
+
             Console.WriteLine("\tPassed!");
         }
     }
