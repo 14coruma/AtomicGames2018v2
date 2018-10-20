@@ -26,7 +26,7 @@ namespace ai
             // For now... just return random legal move
             int[] rmove = new int[] { 0, 0 };
             Random r = new Random();
-            while (!board.legalMove(rmove))
+            while (board.legalMove(rmove).Count == 0)
             {
                 rmove = new int[] { r.Next(0, 8), r.Next(0, 8) };
             }
