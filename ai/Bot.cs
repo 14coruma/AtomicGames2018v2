@@ -11,19 +11,19 @@ namespace ai
     {
         Stopwatch myStopwatch; // Used for timing moves
         int myTimeLimit;
+        int escapeTime;
 
         /// Bot constructor
         public Bot(int timeLimit)
         {
             myTimeLimit = timeLimit;
             myStopwatch = new Stopwatch();
+            escapeTime = 1000;
         }
 
         /// Find best move given a game Board object and time limit
         public int[] getMove(Board board)
         {
-            Board tempBoard = new Board(board);
-            myTimeLimit = 1000;
             // Begin timing
             myStopwatch.Reset();
             myStopwatch.Start();
@@ -33,13 +33,18 @@ namespace ai
             int depth = 0;
             int[] lastMove = new int[] { -1, -1 };
             int[] move = new int[] { -1, -1 };
-            while (myStopwatch.ElapsedMilliseconds < myTimeLimit - 50 && depth <= 100)
+            while (myStopwatch.ElapsedMilliseconds < myTimeLimit - escapeTime && depth <= 100)
             {
                 move.CopyTo(lastMove, 0);
-                alphabeta(tempBoard, depth, int.MinValue, int.MaxValue).Item1.CopyTo(move, 0);
+                alphabeta(board, depth, int.MinValue, int.MaxValue).Item1.CopyTo(move, 0);
                 depth++;
             }
-
+            if(lastMove[0] == -1)
+            {
+                board.moveSpace();
+                return board.moveSpace()[0];
+            }
+            Console.WriteLine("depth: " + (depth - 1));
             return lastMove; // because move may contain an uneducated decision
         }
 
@@ -56,7 +61,7 @@ namespace ai
                 v1 = int.MinValue;
                 foreach (int[] move in board.moveSpace())
                 {
-                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 50)
+                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - escapeTime)
                         break;
                     Board tempBoard = new Board(board);
                     tempBoard.makeMove(move);
@@ -75,7 +80,7 @@ namespace ai
                 v1 = int.MaxValue;
                 foreach (int[] move in board.moveSpace())
                 {
-                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - 50)
+                    if (myStopwatch.ElapsedMilliseconds > myTimeLimit - escapeTime)
                         break;
                     Board tempBoard = new Board(board);
                     tempBoard.makeMove(move);
@@ -96,13 +101,13 @@ namespace ai
         /// Board evaluation function
         public int evaluate(Board b)
         {
-            // TODO: improve heuristic
-            if (b.myWinner == 0)
-                return 0;
-            else if (b.myWinner == 1)
-                return 1;
+            int score = 0;
+            if (b.myWinner == 1)
+                score += 1000;
             else
-                return -1;
+                score -= 1000;
+            score += b.myP1Score - b.myP2Score;
+            return score;
         }
     }
 }
