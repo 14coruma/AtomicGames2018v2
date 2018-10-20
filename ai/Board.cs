@@ -208,6 +208,7 @@ namespace ai
         /// Makes a move, returns legalMove()
         public bool makeMove(int[] pos)
         {
+
             return false;
         }
 
