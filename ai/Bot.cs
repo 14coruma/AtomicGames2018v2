@@ -102,7 +102,7 @@ namespace ai
         public int evaluate(Board b)
         {
             int score = 0;
-            int winScore = 1000;
+            int winScore = 100000;
             int cornerScore = 100;
             int edgeScore = 10;
             
@@ -156,6 +156,9 @@ namespace ai
                 else if (b.myBoard[7][col] == 2)
                     score -= edgeScore;
             }
+
+            // Look for ballanced edges
+
 
             return score;
         }
