@@ -1,3 +1,4 @@
+**Note**: The SDK and game itself was developed by Atomic Object (Grand Rapids). Our contribution was the ai (found in the ai directory) that competed in the 2018 Atomic Games.
 
 # C# SDK for Atomic Games 2018
 
